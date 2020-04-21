@@ -29,11 +29,14 @@ class WSGIApplication(Application):
 
             return
 
-        if not args:
+        if args:
+            self.app_uri = args[0]
+        elif self.cfg.wsgi_app:
+            self.app_uri = self.cfg.wsgi_app
+        else:
             parser.error("No application module specified.")
 
-        self.cfg.set("default_proc_name", args[0])
-        self.app_uri = args[0]
+        self.cfg.set("default_proc_name", self.app_uri)
 
     def load_wsgiapp(self):
         return util.import_app(self.app_uri)

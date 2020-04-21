@@ -157,6 +157,13 @@ class Application(BaseApplication):
         parser = self.cfg.parser()
         args = parser.parse_args()
 
+        env_args = parser.parse_args(self.cfg.get_cmd_args_from_env())
+
+        if args.config:
+            self.load_config_from_file(args.config)
+        elif env_args.config:
+            self.load_config_from_file(env_args.config)
+
         # optional settings from apps
         cfg = self.init(parser, args, args.args)
 
@@ -168,13 +175,7 @@ class Application(BaseApplication):
             for k, v in cfg.items():
                 self.cfg.set(k.lower(), v)
 
-        env_args = parser.parse_args(self.cfg.get_cmd_args_from_env())
-
-        if args.config:
-            self.load_config_from_file(args.config)
-        elif env_args.config:
-            self.load_config_from_file(env_args.config)
-        else:
+        if not args.config and not env_args.config:
             default_config = get_default_config_file()
             if default_config is not None:
                 self.load_config_from_file(default_config)

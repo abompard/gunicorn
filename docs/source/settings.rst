@@ -42,6 +42,21 @@ application specific configuration.
    Loading the config from a Python module requires the ``python:``
    prefix.
 
+
+WSGI App
+--------
+
+.. _wsgi-app:
+
+wsgi_app
+~~~~~~~~
+
+* ``None``
+
+A WSGI application path in pattern ``$(MODULE_NAME):$(VARIABLE_NAME)``.
+
+.. versionadded:: 21.0
+
 Debugging
 ---------
 
